@@ -1,0 +1,836 @@
+/* ==========================================================================
+   Bloom — Studio di design
+   Mobile-first · Flexbox · variabili CSS · tema chiaro/scuro
+   Breakpoint: 576px (mobile) · 768px (tablet) · 992px (desktop)
+   ========================================================================== */
+
+/* ---------- Variabili ---------- */
+:root {
+  --green-900: #145236;
+  --green-700: #17623f;
+  --green-600: #207d52;
+  --green-300: #b9e6cf;
+  --green-100: #eaf7f0;
+
+  --bg: #fafafa;
+  --surface: #ffffff;
+  --text: #1c1c1c;
+  --text-muted: #5b6168;
+  --border: #e6e8eb;
+  --heading: var(--green-700);
+  --header-bg: #ffffff;
+  --footer-bg: #1a1a1a; /* resta nero anche in dark mode */
+
+  --radius: 12px;
+  --shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+  --shadow-hover: 0 10px 24px rgba(0, 0, 0, 0.12);
+  --container: 980px;
+  --gap: 1.5rem;
+}
+
+html:has(#theme-switch:checked) {
+  --bg: #121614;
+  --surface: #1c231f;
+  --text: #eef2ef;
+  --text-muted: #a7b0aa;
+  --border: #2b3530;
+  --heading: #6fd3a1;
+  --green-100: #17231d;
+  --header-bg: #1c231f;
+  --shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+  --shadow-hover: 0 10px 24px rgba(0, 0, 0, 0.55);
+}
+
+/* ---------- Reset e base ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  font-family:
+    "Segoe UI",
+    system-ui,
+    -apple-system,
+    Arial,
+    sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--text);
+  background: var(--bg);
+  transition:
+    background 0.3s,
+    color 0.3s;
+}
+
+main {
+  flex: 1;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul {
+  list-style: none;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+}
+
+:focus-visible {
+  outline: 3px solid var(--green-600);
+  outline-offset: 2px;
+}
+
+/* Contenitore interno: larghezza costante da 992px in su */
+.container {
+  width: 100%;
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 1.25rem;
+}
+
+section[id] {
+  scroll-margin-top: 90px;
+}
+
+/* ---------- Header sticky ---------- */
+#site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--header-bg);
+  border-bottom: 1px solid var(--border);
+  transition:
+    background 0.3s,
+    box-shadow 0.3s,
+    color 0.3s;
+}
+
+#site-header nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem 1rem;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  transition: padding 0.3s;
+}
+
+.logo {
+  order: 1;
+  flex: 1;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--green-600);
+  transition:
+    color 0.3s,
+    font-size 0.3s;
+}
+
+html:has(#theme-switch:checked) .logo {
+  color: #6fd3a1;
+}
+
+#site-header nav ul {
+  order: 3;
+  flex: 0 0 100%;
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+#site-header nav ul a {
+  font-size: 0.95rem;
+  color: var(--text);
+  transition: color 0.2s;
+}
+
+#site-header nav ul a:hover {
+  color: var(--green-600);
+}
+
+#theme-toggle {
+  order: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--text);
+  transition:
+    background 0.2s,
+    transform 0.2s;
+}
+
+#theme-toggle:hover {
+  background: var(--green-100);
+  transform: rotate(15deg);
+}
+
+/* ---------- Hero ---------- */
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  min-height: 460px;
+  padding: 4rem 1.25rem;
+  text-align: center;
+  color: #fff;
+  background:
+    radial-gradient(
+      circle at 20% 20%,
+      rgba(255, 255, 255, 0.14),
+      transparent 45%
+    ),
+    linear-gradient(135deg, var(--green-600), var(--green-900));
+}
+
+.eyebrow {
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  opacity: 0.85;
+}
+
+.hero h1 {
+  font-size: clamp(2rem, 8vw, 3.4rem);
+  line-height: 1.15;
+}
+
+.hero h3 {
+  max-width: 600px;
+  font-size: 1.1rem;
+  font-weight: 400;
+  opacity: 0.95;
+}
+
+.hero .eyebrow,
+.hero h1,
+.hero h3,
+#CTA_btn {
+  animation: fade-up 0.7s ease-out backwards;
+}
+.hero h1 {
+  animation-delay: 0.1s;
+}
+.hero h3 {
+  animation-delay: 0.25s;
+}
+#CTA_btn {
+  animation-delay: 0.4s;
+}
+
+#CTA_btn {
+  margin-top: 0.75rem;
+  padding: 0.85rem 1.8rem;
+  border: none;
+  border-radius: 999px;
+  font-weight: 600;
+  color: var(--green-700);
+  background: #fff;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+}
+
+#CTA_btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+}
+
+/* ---------- Sezioni ---------- */
+.services,
+.works,
+.team {
+  padding: 4rem 0;
+}
+
+.services h2,
+.works h2,
+.team h2 {
+  margin-bottom: 2rem;
+  text-align: center;
+  font-size: 1.9rem;
+  color: var(--heading);
+}
+
+.team {
+  background: linear-gradient(var(--bg), var(--green-100), var(--bg));
+}
+
+/* ---------- Griglia e card (servizi, lavori, team) ---------- */
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--gap);
+}
+
+.card {
+  flex: 0 0 100%; /* mobile: 1 colonna */
+  padding: 1.75rem 1.5rem;
+  text-align: center;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  transition:
+    transform 0.25s,
+    box-shadow 0.25s,
+    background 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-6px); /* effetto lift */
+  box-shadow: var(--shadow-hover);
+}
+
+.card p {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+}
+
+.services .card h3 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+  font-size: 1.15rem;
+}
+
+.services .card h3 i {
+  font-size: 2rem;
+  color: var(--green-600);
+}
+
+/* Lavori */
+.work {
+  padding: 0.75rem 0.75rem 1.25rem;
+  overflow: hidden;
+}
+
+.work img {
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  margin-bottom: 0.9rem;
+  border-radius: 8px;
+}
+
+.work h3 {
+  font-size: 1.05rem;
+}
+
+/* Team + avatar (lettera dentro un cerchio) */
+.avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 76px;
+  height: 76px;
+  margin: 0 auto 0.75rem;
+  border: 3px solid var(--green-300);
+  border-radius: 50%;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #fff;
+  background: var(--green-600);
+}
+
+.team .card h3 {
+  font-size: 1.1rem;
+}
+
+.role {
+  display: block;
+  margin: 0.25rem 0 0.75rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--green-600);
+}
+
+html:has(#theme-switch:checked) .role {
+  color: #6fd3a1;
+}
+
+/* ---------- Footer ---------- */
+#site-footer {
+  padding: 2.5rem 0;
+  color: #cfd5d1;
+  background: var(--footer-bg);
+}
+
+.footer-inner {
+  display: flex;
+  flex-direction: column; /* mobile: tutto in verticale */
+  align-items: center;
+  gap: 1.5rem;
+  text-align: center;
+}
+
+#site-footer .logo {
+  flex: none;
+  color: #4ade80;
+}
+
+.footer-brand p {
+  max-width: 320px;
+  margin-top: 0.4rem;
+  font-size: 0.9rem;
+  color: #aab1ac;
+}
+
+.socials {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.socials a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  color: #fff;
+  background: #2b2b2b;
+  transition:
+    background 0.2s,
+    transform 0.2s;
+}
+
+.socials a:hover {
+  background: var(--green-600);
+  transform: translateY(-2px);
+}
+
+#site-footer small {
+  font-size: 0.85rem;
+  color: #8b918d;
+}
+
+/* ==========================================================================
+   Tablet — 768px
+   ========================================================================== */
+@media (min-width: 768px) {
+  /* Header: logo a sinistra, menu + tema a destra (niente hamburger) */
+  #site-header nav {
+    flex-wrap: nowrap;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+
+  #site-header nav ul {
+    order: 2;
+    flex: 0 0 auto;
+    gap: 2rem;
+  }
+
+  #theme-toggle {
+    order: 3;
+  }
+
+  .hero {
+    min-height: 500px;
+  }
+
+  /* Servizi, team: 2 + 1 · Lavori: 2 + 2 + 2 */
+  .card {
+    flex: 0 0 calc((100% - var(--gap)) / 2);
+  }
+
+  /* Footer: sinistra / centro / destra */
+  .footer-inner {
+    flex-direction: row;
+    justify-content: space-between;
+    text-align: left;
+  }
+
+  .footer-brand,
+  #site-footer small {
+    flex: 1;
+  }
+
+  .footer-brand p {
+    max-width: 280px;
+  }
+
+  .socials {
+    flex: 0 0 auto;
+  }
+
+  #site-footer small {
+    text-align: right;
+  }
+}
+
+/* ==========================================================================
+   Desktop — 992px
+   ========================================================================== */
+@media (min-width: 992px) {
+  .container {
+    padding: 0;
+  }
+
+  /* Servizi, team: 3 in fila · Lavori: 3 + 3 */
+  .card {
+    flex: 0 0 calc((100% - 2 * var(--gap)) / 3);
+  }
+
+  .services,
+  .works,
+  .team {
+    padding: 5rem 0;
+  }
+}
+
+/* ---------- Accessibilità: meno movimento ---------- */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .card:hover,
+  #CTA_btn:hover,
+  .btn:hover {
+    transform: none;
+  }
+}
+
+/* Tema chiaro/scuro  */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+#theme-toggle {
+  cursor: pointer;
+}
+
+#theme-toggle .fa-sun {
+  display: none;
+}
+
+html:has(#theme-switch:checked) #theme-toggle .fa-sun {
+  display: inline;
+}
+
+html:has(#theme-switch:checked) #theme-toggle .fa-moon {
+  display: none;
+}
+
+#theme-switch:focus-visible + #theme-toggle {
+  outline: 3px solid var(--green-600);
+  outline-offset: 2px;
+}
+
+#CTA_btn {
+  display: inline-block;
+}
+
+/* Entrata scaglionata di servizi e team. */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.reveal {
+  animation: fade-up 0.6s ease-out backwards;
+  animation-delay: calc(var(--i, 0) * 0.18s);
+}
+
+@supports (animation-timeline: view()) {
+  .reveal {
+    animation: fade-up linear backwards;
+    animation-delay: 0s;
+    animation-timeline: view();
+    animation-range: entry calc(var(--i, 0) * 8%) entry
+      calc(55% + var(--i, 0) * 8%);
+  }
+}
+
+.contact-line {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  color: #aab1ac;
+}
+
+
+
+
+/* ---------- Modale "Richiedi preventivo" ---------- */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  overflow: auto;
+  background: rgba(0, 0, 0, 0.55);
+  opacity: 0;
+  transition: opacity 0.35s;
+}
+
+.modal-overlay[hidden] {
+  display: none;
+}
+
+.modal-overlay.open {
+  opacity: 1; /* fade-in */
+}
+
+/* Dimensione FISSA: identica su smartphone, tablet e desktop */
+.modal {
+  position: relative;
+  flex: none;
+  width: 340px;
+  height: 540px;
+  padding: 1.5rem;
+  color: var(--text);
+  background: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+  transform: translateY(12px);
+  transition: transform 0.35s;
+}
+
+.modal-overlay.open .modal {
+  transform: none;
+}
+
+.modal h2 {
+  margin-bottom: 1rem;
+  font-size: 1.4rem;
+  color: var(--heading);
+}
+
+.modal-close {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  width: 34px;
+  height: 34px;
+  border: none;
+  border-radius: 50%;
+  color: var(--text);
+  background: transparent;
+}
+
+.modal-close:hover {
+  background: var(--green-100);
+}
+
+#quote-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  height: calc(100% - 3rem);
+}
+
+#quote-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+#quote-form label.grow {
+  flex: 1;
+}
+
+#quote-form input,
+#quote-form select,
+#quote-form textarea {
+  width: 100%;
+  padding: 0.55rem 0.7rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font: inherit;
+  font-weight: 400;
+  color: var(--text);
+  background: var(--bg);
+}
+
+#quote-form textarea {
+  flex: 1;
+  resize: none;
+}
+
+#quote-form .btn {
+  align-self: stretch;
+}
+
+/* Messaggio di conferma in overlay dentro la modale */
+.thanks {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 2rem;
+  text-align: center;
+  font-size: 1.15rem;
+  font-weight: 600;
+  background: var(--surface);
+  border-radius: var(--radius);
+  animation: fade-up 0.4s ease-out;
+}
+
+.thanks[hidden] {
+  display: none;
+}
+
+.thanks i {
+  font-size: 3rem;
+  color: var(--green-600);
+}
+
+/* ==========================================================================
+   Tablet — 768px
+   ========================================================================== */
+@media (min-width: 768px) {
+  /* Header: logo a sinistra, menu + tema a destra (niente hamburger) */
+  #site-header nav {
+    flex-wrap: nowrap;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+
+  #site-header nav ul {
+    order: 2;
+    flex: 0 0 auto;
+    gap: 2rem;
+  }
+
+  #theme-toggle {
+    order: 3;
+  }
+
+  .hero {
+    min-height: 500px;
+  }
+
+  /* Servizi, team: 2 + 1 · Lavori: 2 + 2 + 2 */
+  .card {
+    flex: 0 0 calc((100% - var(--gap)) / 2);
+  }
+
+  /* Footer: sinistra / centro / destra */
+  .footer-inner {
+    flex-direction: row;
+    justify-content: space-between;
+    text-align: left;
+  }
+
+  .footer-brand,
+  #site-footer small {
+    flex: 1;
+  }
+
+  .footer-brand p {
+    max-width: 280px;
+  }
+
+  .socials {
+    flex: 0 0 auto;
+  }
+
+  #site-footer small {
+    text-align: right;
+  }
+}
+
+/* ==========================================================================
+   Desktop — 992px
+   ========================================================================== */
+@media (min-width: 992px) {
+  .container {
+    padding: 0;
+  }
+
+  /* Servizi, team: 3 in fila · Lavori: 3 + 3 */
+  .card {
+    flex: 0 0 calc((100% - 2 * var(--gap)) / 3);
+  }
+
+  .services,
+  .works,
+  .team,
+  .testimonials,
+  .contact {
+    padding: 5rem 0;
+  }
+}
+
+/* ---------- Accessibilità: meno movimento ---------- */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .card:hover,
+  #CTA_btn:hover,
+  .btn:hover {
+    transform: none;
+  }
+}
